@@ -1,0 +1,11 @@
+Resources Used:
+
+shopify_scraper.py file: https://medium.com/@lagenar/how-to-create-a-scraper-for-shopify-a98b6fb2cacb
+
+
+Next Steps
+- determine how to get inventory amount for each item variant
+    - know that inventory can 100% be found by navigating to each product page and scaping there
+    - there is an "available" tag that is a boolean which determines if an item is avaialble on a website or not
+- determine how to find intersections between products across different stores
+- Map products to categories within EDEN database
