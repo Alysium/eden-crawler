@@ -7,6 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 BOT_NAME = 'edenCrawler'
 
 SPIDER_MODULES = ['edenCrawler.spiders']
@@ -68,7 +72,7 @@ Numbers corresponding to pipelines indicate the execution order of the pipelines
 '''
 
 ITEM_PIPELINES = {
-    'edenCrawler.pipelines.EdencrawlerPipeline': 300,
+   'edenCrawler.pipelines.EdencrawlerPipeline': 300,
 }
 userName = "EDEN_user"
 userPwd = "EDEN_user_123"

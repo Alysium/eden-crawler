@@ -8,7 +8,6 @@ class HavenSpider(scrapy.Spider):
     allowed_domains = ['shop.havenshop.com']
     start_urls = ['https://shop.havenshop.com/collections/footwear?view=all']
 
-
     def getSizeInv(self, productBox):
         """
         Function get size inventory from product box
@@ -72,12 +71,15 @@ class HavenSpider(scrapy.Spider):
         '''
 
         item = response.meta['item']
-
         item['description'] = response.css('[id="accordion-description"]>div>p::text').get()
-        imgs = response.css('[id="product-gallery-main"]>div>img::attr(src)').getall()
-        item['displayPic'] = imgs.pop(0)
-        item['imgs'] = imgs
         
+        
+        imgs = response.css('[id="product-gallery-main"]>div>img::attr(src)').getall()
+        for i,img in enumerate(imgs):
+            if img[:6] != "https:":
+                imgs[i] = "https:"+imgs[i]
+        item['displayPic'] = imgs.pop(0)
+        item['imgs'] = imgs          
 
         yield item
 
@@ -88,8 +90,10 @@ class HavenSpider(scrapy.Spider):
         #this returns string of html components -> can do string manipulation, but not optimal
         #productBoxes = response.xpath('//a[contains(@class,"product-card")]').getall()        
         hrefs = response.css("a.product-card::attr(href)").getall()
+        
+        print("There are %d items total" % len(hrefs))
 
-        for i,product in enumerate(response.css("a.product-card")[:10]):
+        for i,product in enumerate(response.css("a.product-card")[:3]):
             item = ProductItem()
             #loops for each item seen in the footwear product car
             sizes = self.getSizeInv(product)
@@ -102,7 +106,6 @@ class HavenSpider(scrapy.Spider):
             item['name'] = self.getName(product)
             item['pageUrl'] = hrefs[i]
             item['gender'] = 'mens' #gender assumed to be mens
-
 
             productClasses = re.sub('\n+', ' ',re.sub(" +", '-', product.attrib['class'])).split(" ")
 

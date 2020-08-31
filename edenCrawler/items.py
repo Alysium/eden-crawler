@@ -23,3 +23,8 @@ class ProductItem(Item):
     productType = Field() #
     style = Field() #ie: boots-----------------
     pageUrl = Field() #
+    _id: Field() #For MongoDB querying
+    '''
+    Worry abotu after: Structure of _id: storeName_locationId_productName_variantName
+
+    '''
